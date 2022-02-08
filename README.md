@@ -1,6 +1,4 @@
-# Webpack 5 Vanilla
-
-Webpack 5 Configuration for HTML, CSS, And JavaScript
+# Indonesia National Parks Websit
 
 ## Installation
 
@@ -37,14 +35,6 @@ You can view the deploy by creating a server in `dist`.
 ```bash
 http-server ./dist
 ```
-
-## Features
-
-- [Webpack](https://webpack.js.org/)
-- [Babel](https://babeljs.io/)
-- [PostCSS](https://postcss.org/)
-- [ESLint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
 
 ## License
 
