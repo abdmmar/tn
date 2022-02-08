@@ -6,7 +6,7 @@ import GlobalStyle from './styles';
 import App from './App';
 
 const client = new ApolloClient({
-  uri: process.env.URL_API,
+  uri: 'https://tn-ql.abdmmar.com',
   cache: new InMemoryCache()
 });
 
