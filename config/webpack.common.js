@@ -28,7 +28,7 @@ module.exports = {
       },
       // Images
       {
-        test: /\.(?:ico|png|jpg|jpeg|gif)$/i,
+        test: /\.(?:ico|png|jpg|jpeg|gif|webp)$/i,
         type: 'asset/resource'
       },
       // Fonts and SVGs
