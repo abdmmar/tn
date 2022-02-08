@@ -47,7 +47,7 @@ const HeroContent = styled.div`
 `;
 
 const HeroTitle = styled.h1`
-  font-size: 58px;
+  font-size: 64px;
   font-style: normal;
   font-weight: 700;
   line-height: 60px;
