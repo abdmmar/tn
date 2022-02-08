@@ -18,5 +18,5 @@
       "~/*": ["./public/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "css.d.ts"]
 }
