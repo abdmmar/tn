@@ -145,7 +145,7 @@ const Main = () => {
                     <Card
                       key={park.id}
                       id={park.id}
-                      name={park.name}
+                      name={park.name.replace('Taman Nasional', '')}
                       location={park.location}
                       intl_status={park.intl_status}
                       region={park.region}

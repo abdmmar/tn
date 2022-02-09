@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { heroImage, HeroImageType } from './Hero.util';
-
+import ButtonLink from '@/components/ButtonLink';
 interface HeroImageStyle {
   src?: string;
 }
@@ -64,22 +64,6 @@ const HeroSubtitle = styled.p`
   color: hsla(0, 0%, 100%, 1);
 `;
 
-const HeroLink = styled.a`
-  font-weight: 600;
-  text-align: center;
-  color: hsla(0, 0%, 0%, 1);
-  background-color: hsla(0, 0%, 100%, 1);
-  border-radius: 6px;
-  padding: 10px 20px;
-  width: fit-content;
-  text-decoration: none;
-  transition: box-shadow 150ms;
-
-  &:hover {
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
-  }
-`;
-
 const HeroInfo = styled.p`
   position: fixed;
   right: 100px;
@@ -91,6 +75,13 @@ const HeroInfo = styled.p`
 const HeroInfoLink = styled.a`
   text-decoration: none;
   color: hsla(0, 0%, 100%, 1);
+`;
+
+const ButtonsLink = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  align-items: center;
 `;
 
 const getRandomHero = (heroImage: HeroImageType[]) => {
@@ -111,9 +102,14 @@ const Hero = () => {
               Indonesia <br /> National Parks
             </HeroTitle>
             <HeroSubtitle>Unofficial GraphQL API for Indonesia National Park</HeroSubtitle>
-            <HeroLink href="https://tn-ql.abdmmar.com" target="_blank">
-              Try it now!
-            </HeroLink>
+            <ButtonsLink>
+              <ButtonLink href="https://tn-ql.abdmmar.com" target="_blank">
+                Try it now!
+              </ButtonLink>
+              <ButtonLink href="https://github.com/abdmmar/tn-ql" target="_blank" secondary>
+                Github
+              </ButtonLink>
+            </ButtonsLink>
           </HeroContent>
           <HeroInfo>
             {`${randomHero.location}, ${randomHero.nationalPark} by `}
