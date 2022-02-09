@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { gql, useQuery } from '@apollo/client';
 
+import { devices } from '@/styles';
 import Card from '@/components/Card';
 import Tabs from '@/components/Tabs';
 import Loader from '@/components/Loader';
@@ -12,6 +13,10 @@ const MainSection = styled.main`
   width: 100%;
   height: 100%;
   padding: 50px 100px;
+
+  @media ${devices.mobile} {
+    padding: 20px;
+  }
 `;
 
 const MainContainer = styled.div`
@@ -26,6 +31,11 @@ const MainWrapper = styled.div`
   border-radius: 6px;
   padding: 32px;
   width: 100%;
+
+  @media ${devices.mobile} {
+    top: -180px;
+    padding: 16px;
+  }
 `;
 
 const MainContent = styled.div`
@@ -39,12 +49,24 @@ const MainHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap-reverse;
+  gap: 15px;
 `;
 
 const MainCards = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 24px;
+`;
+
+const Input = styled.input`
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 6px 12px;
+
+  @media ${devices.mobile} {
+    width: 100%;
+  }
 `;
 
 const nationalParksQuery = gql`
@@ -134,7 +156,7 @@ const Main = () => {
           <MainContent>
             <MainHeader>
               <Tabs items={regions} current={Region[region]} set={filterByRegion}></Tabs>
-              <input type="text" name="text"></input>
+              <Input type="text" name="text" />
             </MainHeader>
             {loading && <Loader />}
             {error && <p>Error! {error.message}</p>}

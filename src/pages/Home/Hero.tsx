@@ -1,8 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { devices } from '@/styles';
 import { heroImage, HeroImageType } from './Hero.util';
 import ButtonLink from '@/components/ButtonLink';
+
 interface HeroImageStyle {
   src?: string;
 }
@@ -18,6 +20,10 @@ const HeroImage = styled.div<HeroImageStyle>`
   background-repeat: no-repeat;
   background-size: cover;
   padding: 50px 100px;
+
+  @media ${devices.mobile} {
+    padding: 20px;
+  }
 `;
 
 const HeroWrapper = styled.div`
@@ -36,6 +42,11 @@ const HeroContainer = styled.div`
   align-content: flex-end;
   align-items: flex-end;
   gap: 20px;
+
+  @media ${devices.mobile} {
+    flex-direction: column;
+    align-items: start;
+  }
 `;
 
 const HeroContent = styled.div`
@@ -44,16 +55,26 @@ const HeroContent = styled.div`
   width: fit-content;
   height: fit-content;
   position: fixed;
+
+  @media ${devices.mobile} {
+    position: initial;
+  }
 `;
 
 const HeroTitle = styled.h1`
-  font-size: 64px;
+  font-size: 4rem;
   font-style: normal;
   font-weight: 700;
   line-height: 60px;
   letter-spacing: -0.025em;
   text-align: left;
   color: hsla(0, 0%, 100%, 1);
+
+  @media ${devices.mobile} {
+    font-size: 2.5rem;
+    line-height: 40px;
+    letter-spacing: 0;
+  }
 `;
 
 const HeroSubtitle = styled.p`
@@ -62,6 +83,10 @@ const HeroSubtitle = styled.p`
   font-weight: 400;
   text-align: left;
   color: hsla(0, 0%, 100%, 1);
+
+  @media ${devices.mobile} {
+    font-size: 1rem;
+  }
 `;
 
 const HeroInfo = styled.p`
@@ -70,6 +95,11 @@ const HeroInfo = styled.p`
   font-size: 0.75rem;
   color: hsla(0, 0%, 100%, 1);
   text-decoration: none;
+
+  @media ${devices.mobile} {
+    position: initial;
+    right: none;
+  }
 `;
 
 const HeroInfoLink = styled.a`
