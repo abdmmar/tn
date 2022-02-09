@@ -73,6 +73,11 @@ const HeroLink = styled.a`
   padding: 10px 20px;
   width: fit-content;
   text-decoration: none;
+  transition: box-shadow 150ms;
+
+  &:hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
+  }
 `;
 
 const HeroInfo = styled.p`

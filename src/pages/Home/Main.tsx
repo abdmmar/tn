@@ -2,6 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { gql, useQuery } from '@apollo/client';
 
+import Card from '@/components/Card';
+
 const MainSection = styled.main`
   display: grid;
   place-items: center;
@@ -37,11 +39,15 @@ const MainHeader = styled.div`
   align-items: center;
 `;
 
-const Tab = styled.button`
-  font-weight: 600;
+interface TabProps {
+  active: boolean;
+}
+
+const Tab = styled.button<TabProps>`
+  font-weight: ${(props) => (props.active ? 500 : 400)};
   text-align: center;
-  color: hsla(0, 0%, 0%, 1);
-  background-color: hsla(0, 0%, 100%, 1);
+  color: ${(props) => (props.active ? 'hsla(0, 0%, 100%, 1)' : 'hsla(0, 0%, 75%, 1)')};
+  background-color: ${(props) => (props.active ? 'hsla(225, 15%, 17%, 1)' : 'hsla(0, 0%, 100%, 1)')};
   border: 0;
   border-radius: 6px;
   padding: 5px 15px;
@@ -59,14 +65,6 @@ const MainCards = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 24px;
-`;
-
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 6px;
-  background-color: white;
-  padding: 15px;
 `;
 
 const nationalParksQuery = gql`
@@ -95,11 +93,13 @@ interface NationalPark {
   year?: number;
   region: string;
   location?: string;
-  image?: {
-    id: string;
-    title: string;
-    src: string;
-  };
+  image?: [
+    {
+      id: string;
+      title: string;
+      src: string;
+    }
+  ];
   intl_status?: [
     {
       name: string;
@@ -118,13 +118,14 @@ enum Region {
 }
 
 const useQueryNationalParks = () => {
-  const [region, setRegion] = React.useState<Region>(Region.All);
-  const [tempData, setTempData] = React.useState<NationalPark[] | []>([]);
   const { data, loading, error } = useQuery(nationalParksQuery);
 
-  const filterByRegion = (region: Region) => {
+  const [region, setRegion] = React.useState<Region>(Region.All);
+  const [tempData, setTempData] = React.useState<NationalPark[] | []>([]);
+
+  const filterByRegion = React.useCallback((region: Region) => {
     setRegion(region);
-  };
+  }, []);
 
   React.useEffect(() => {
     if (!data) return;
@@ -138,11 +139,11 @@ const useQueryNationalParks = () => {
     }
   }, [data, region]);
 
-  return { data: tempData, loading, error, filterByRegion };
+  return { data: tempData, loading, error, region, filterByRegion };
 };
 
 const Main = () => {
-  const { data, loading, error, filterByRegion } = useQueryNationalParks();
+  const { data, loading, error, region, filterByRegion } = useQueryNationalParks();
 
   return (
     <MainSection>
@@ -158,6 +159,7 @@ const Main = () => {
                     return (
                       <Tab
                         key={key}
+                        active={region === Region[key as keyof typeof Region]}
                         onClick={() => {
                           filterByRegion(Region[key as keyof typeof Region]);
                         }}
@@ -175,7 +177,18 @@ const Main = () => {
               {!loading &&
                 data &&
                 data.map((park: NationalPark) => {
-                  return <Card key={park.id}>{park.name}</Card>;
+                  return (
+                    <Card
+                      key={park.id}
+                      id={park.id}
+                      name={park.name}
+                      location={park.location}
+                      intl_status={park.intl_status}
+                      region={park.region}
+                      year={park.year}
+                      image={park.image}
+                    />
+                  );
                 })}
             </MainCards>
           </MainContent>
