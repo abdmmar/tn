@@ -4,6 +4,7 @@ import { gql, useQuery } from '@apollo/client';
 
 import Card from '@/components/Card';
 import Tabs from '@/components/Tabs';
+import Loader from '@/components/Loader';
 
 const MainSection = styled.main`
   display: grid;
@@ -135,9 +136,9 @@ const Main = () => {
               <Tabs items={regions} current={Region[region]} set={filterByRegion}></Tabs>
               <input type="text" name="text"></input>
             </MainHeader>
+            {loading && <Loader />}
+            {error && <p>Error! {error.message}</p>}
             <MainCards>
-              {loading && <p>Loading...</p>}
-              {error && <p>Error! {error.message}</p>}
               {!loading &&
                 data &&
                 data.map((park: NationalPark) => {
