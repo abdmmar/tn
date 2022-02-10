@@ -53,26 +53,22 @@ const IconInfo = styled.div`
   color: hsla(225, 15%, 17%, 0.8);
 `;
 
-interface CardProps {
+type CardProps = {
   id: string;
   name: string;
   year?: number;
   region: string;
   location?: string;
-  image?: [
-    {
-      id: string;
-      title: string;
-      src: string;
-    }
-  ];
-  intl_status?: [
-    {
-      name?: string;
-    }
-  ];
+  image?: {
+    id: string;
+    title: string;
+    src: string;
+  }[];
+  intl_status?: {
+    name?: string;
+  }[];
   children?: React.ReactNode;
-}
+};
 
 enum InternationalStatus {
   'Situs Warisan Dunia' = '#E98F53',
@@ -83,6 +79,9 @@ enum InternationalStatus {
   'Unit Situs Warisan Dunia' = '#EBA2A2'
 }
 
+// https://stackoverflow.com/questions/55377365/what-does-keyof-typeof-mean-in-typescript
+type InternationalStatusType = keyof typeof InternationalStatus;
+
 const Card = ({ id, name, year, region, location, image, intl_status }: CardProps) => {
   return (
     <Container id={id}>
@@ -91,7 +90,7 @@ const Card = ({ id, name, year, region, location, image, intl_status }: CardProp
       {intl_status && intl_status?.length > 0 && (
         <StatusContainer>
           {intl_status?.map(({ name }) => (
-            <Status bgColor={InternationalStatus[name as keyof typeof InternationalStatus]} key={name}>
+            <Status bgColor={InternationalStatus[name as InternationalStatusType]} key={name}>
               {name}
             </Status>
           ))}

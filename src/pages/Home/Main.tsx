@@ -126,28 +126,43 @@ const useQueryNationalParks = () => {
 
   const [region, setRegion] = React.useState<Region>(Region.All);
   const [tempData, setTempData] = React.useState<NationalPark[] | []>([]);
+  const [search, setSearch] = React.useState('');
 
-  const filterByRegion = React.useCallback((region: string) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const handleSetRegion = (region: string) => {
     setRegion(Region[region as keyof typeof Region]);
-  }, []);
+  };
+
+  const filterByRegion = (data: NationalPark[], region: Region) => {
+    if (region === Region.All) return data;
+    return data.filter((park: NationalPark) => Region[park.region as keyof typeof Region] === region);
+  };
+
+  const filterBySearch = (data: NationalPark[], search: string) => {
+    return data.filter((park: NationalPark) => park.name.toLowerCase().includes(search.toLowerCase()));
+  };
 
   React.useEffect(() => {
     if (!data) return;
-
-    if (region === Region.All) {
+    if (region === Region.All && search === '') {
       setTempData(data.nationalParks);
-    } else {
-      setTempData(
-        data.nationalParks.filter((park: NationalPark) => Region[park.region as keyof typeof Region] === region)
-      );
+      return;
     }
-  }, [data, region]);
 
-  return { data: tempData, loading, error, region, filterByRegion };
+    const regionFiltered = filterByRegion(data.nationalParks, region);
+    const searchFiltered = filterBySearch(regionFiltered, search);
+
+    setTempData(searchFiltered);
+  }, [data, region, search]);
+
+  return { data: tempData, loading, error, region, handleSetRegion, handleSearch };
 };
 
 const Main = () => {
-  const { data, loading, error, region, filterByRegion } = useQueryNationalParks();
+  const { data, loading, error, region, handleSearch, handleSetRegion } = useQueryNationalParks();
 
   return (
     <MainSection>
@@ -155,8 +170,8 @@ const Main = () => {
         <MainWrapper>
           <MainContent>
             <MainHeader>
-              <Tabs items={regions} current={Region[region]} set={filterByRegion}></Tabs>
-              <Input type="text" name="text" />
+              <Tabs items={regions} current={Region[region]} set={handleSetRegion}></Tabs>
+              <Input type="text" name="text" onChange={handleSearch} placeholder="Search by name" />
             </MainHeader>
             {loading && <Loader />}
             {error && <p>Error! {error.message}</p>}
