@@ -6,6 +6,7 @@ import { devices } from '@/styles';
 import Card from '@/components/Card';
 import Tabs from '@/components/Tabs';
 import Loader from '@/components/Loader';
+import { debounce } from '@/lib';
 
 const MainSection = styled.main`
   display: grid;
@@ -128,9 +129,9 @@ const useQueryNationalParks = () => {
   const [tempData, setTempData] = React.useState<NationalPark[] | []>([]);
   const [search, setSearch] = React.useState('');
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-  };
+  }, 500);
 
   const handleSetRegion = (region: string) => {
     setRegion(Region[region as keyof typeof Region]);
@@ -171,7 +172,12 @@ const Main = () => {
           <MainContent>
             <MainHeader>
               <Tabs items={regions} current={Region[region]} set={handleSetRegion}></Tabs>
-              <Input type="text" name="text" onChange={handleSearch} placeholder="Search by name" />
+              <div>
+                <label htmlFor="search" className="sr-only">
+                  Search
+                </label>
+                <Input type="text" name="text" id="search" onChange={handleSearch} placeholder="Search by name" />
+              </div>
             </MainHeader>
             {loading && <Loader />}
             {error && <p>Error! {error.message}</p>}
