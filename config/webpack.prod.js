@@ -1,6 +1,4 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { merge } = require('webpack-merge');
 
 const paths = require('./paths');
@@ -14,36 +12,9 @@ module.exports = merge(common, {
     filename: 'js/[name].[contenthash].bundle.js',
     publicPath: '/'
   },
-  module: {
-    rules: [
-      // Minify CSS
-      {
-        test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: false,
-              importLoaders: 2,
-              modules: false
-            }
-          },
-          'postcss-loader'
-        ]
-      }
-    ]
-  },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: 'styles/[name].[contenthash].css',
-      chunkFilename: '[id].css'
-    })
-  ],
+  plugins: [new CleanWebpackPlugin()],
   optimization: {
     minimize: true,
-    minimizer: [new CssMinimizerPlugin(), '...'],
     runtimeChunk: {
       name: 'runtime'
     },
