@@ -11,6 +11,17 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
+    <meta name="color-scheme" content="light dark"></meta>
+    <script>
+      try {
+        const preference = localStorage.getItem('theme');
+        if (preference) {
+          document.documentElement.setAttribute('data-theme', preference);
+        }
+      } catch (err) {
+        // do nothing
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
