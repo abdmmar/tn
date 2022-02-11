@@ -26,7 +26,7 @@ const Tab = styled.button<TabProps>`
 interface TabsProps {
   items: string[];
   current: string;
-  set: (region: string) => void;
+  set: (value: any) => void;
   children?: React.ReactNode;
 }
 
@@ -39,7 +39,7 @@ const Tabs = ({ items, current, set }: TabsProps) => {
             key={key}
             active={current === key}
             onClick={() => {
-              set(key);
+              set && set(key);
             }}
           >
             {key}

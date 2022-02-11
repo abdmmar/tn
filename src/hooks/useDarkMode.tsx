@@ -47,6 +47,10 @@ export const useDarkMode = () => {
   const chosenTheme = savedPreferences !== 'system' ? savedPreferences : prefersDarkMode ? 'dark' : 'light';
   const [theme, setTheme] = React.useState<Theme>(chosenTheme);
 
+  const selectTheme = (theme: Theme) => {
+    setTheme(theme);
+  };
+
   React.useEffect(() => {
     const css = disableTransition();
 
@@ -60,5 +64,5 @@ export const useDarkMode = () => {
     redraw(css);
   }, [theme]);
 
-  return { theme: theme === 'dark' ? darkTheme : lightTheme, setTheme };
+  return { theme: theme === 'dark' ? darkTheme : lightTheme, selectTheme };
 };
