@@ -110,22 +110,13 @@ interface NationalPark {
   ];
 }
 
-enum Region {
-  All,
-  Jawa,
-  Sumatra,
-  Sulawesi,
-  Kalimantan,
-  'Maluku dan Papua',
-  'Bali dan Nusa Tenggara'
-}
-
-const regions = Object.keys(Region).filter((key) => isNaN(Number(key)));
+const regions = ['All', 'Jawa', 'Sumatra', 'Sulawesi', 'Kalimantan', 'Maluku dan Papua', 'Bali dan Nusa Tenggara'];
+type Regions = 'All' | 'Jawa' | 'Sumatra' | 'Sulawesi' | 'Kalimantan' | 'Maluku dan Papua' | 'Bali dan Nusa Tenggara';
 
 const useQueryNationalParks = () => {
   const { data, loading, error } = useQuery(nationalParksQuery);
 
-  const [region, setRegion] = React.useState<Region>(Region.All);
+  const [region, setRegion] = React.useState<Regions>('All');
   const [tempData, setTempData] = React.useState<NationalPark[] | []>([]);
   const [search, setSearch] = React.useState('');
 
@@ -133,13 +124,13 @@ const useQueryNationalParks = () => {
     setSearch(e.target.value);
   }, 500);
 
-  const handleSetRegion = (region: string) => {
-    setRegion(Region[region as keyof typeof Region]);
+  const handleSetRegion = (region: Regions) => {
+    setRegion(region);
   };
 
-  const filterByRegion = (data: NationalPark[], region: Region) => {
-    if (region === Region.All) return data;
-    return data.filter((park: NationalPark) => Region[park.region as keyof typeof Region] === region);
+  const filterByRegion = (data: NationalPark[], region: Regions) => {
+    if (region === 'All') return data;
+    return data.filter((park: NationalPark) => park.region === region);
   };
 
   const filterBySearch = (data: NationalPark[], search: string) => {
@@ -148,7 +139,7 @@ const useQueryNationalParks = () => {
 
   React.useEffect(() => {
     if (!data) return;
-    if (region === Region.All && search === '') {
+    if (region === 'All' && search === '') {
       setTempData(data.nationalParks);
       return;
     }
@@ -171,7 +162,7 @@ const Main = () => {
         <MainWrapper>
           <MainContent>
             <MainHeader>
-              <Tabs items={regions} current={Region[region]} set={handleSetRegion}></Tabs>
+              <Tabs items={regions} current={region} set={handleSetRegion}></Tabs>
               <div>
                 <label htmlFor="search" className="sr-only">
                   Search

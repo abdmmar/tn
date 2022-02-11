@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { devices } from '@/styles';
 import { heroImage, HeroImageType } from './Hero.util';
 import ButtonLink from '@/components/ButtonLink';
+import Navbar from '@/components/Navbar';
 
 interface HeroImageStyle {
   src?: string;
@@ -125,6 +126,7 @@ const Hero = () => {
 
   return (
     <HeroImage src={randomHero.filename}>
+      <Navbar />
       <HeroWrapper>
         <HeroContainer>
           <HeroContent>
